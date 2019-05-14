@@ -1,7 +1,6 @@
 namespace itertools{
 
     template <class T>
-
     class range{
         private:
 
