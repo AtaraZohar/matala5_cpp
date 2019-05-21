@@ -1,5 +1,6 @@
 #pragma once
 #include <set> 
+#include <cmath>
 #include <iostream>
 #include "zip.hpp"
 using namespace std;
@@ -9,11 +10,11 @@ namespace itertools
     class powerset
     {
         private:
-        T one;
+        T myPowerSet;
 
         public:
 
-        powerset(T first) : one(first) {
+        powerset(T first) : myPowerSet(first) {
 
         }
         
@@ -21,63 +22,86 @@ namespace itertools
         class iterator
         {
             private:
-            T2 first;
-            T2 second;
+            T2 first_iter;
+            T2 second_iter;
+            unsigned index;
+            unsigned num_of_index;
 
-            // typedef decltype(*first) ElementType;
             typedef
                typename std::remove_const<
                typename std::remove_reference<
-               decltype(*first)>::type>::type Element;
+               decltype(*first_iter)>::type>::type Element;
 
             public:
-            iterator(T2 iter1, T2 itr2) : first(iter1), second(itr2) {
+            iterator(T2 iter1, T2 itr2) : first_iter(iter1), second_iter(itr2), index(0), num_of_index(0) {
+                T2 start=this->first_iter;
+                while(start != second_iter ){
+                    ++this->num_of_index;
+                    ++start;
+                }
+                this->num_of_index = std::pow(2, this->num_of_index);
             }
 
             set<Element> operator*() const {
 
-             return set<Element>{};
-            
+            T2 _element_iterator = first_iter;
+            std::set<Element> mySet;
+            unsigned int i = index;
+            while (i != 0 && _element_iterator != second_iter)
+            { 
+                unsigned int r = i % 2;
+                i = i >> 1; 
+
+                if (r == 1)
+                    mySet.insert(*_element_iterator);
+
+                ++_element_iterator;
+            }
+
+                return mySet;            
             }
 
             iterator<T2>& operator++() {
-
+                this->index++;
 			    return *this;
             }
 
-		    bool operator==(iterator<T2> it) const {
-			    return false;
-		    }
-
-		    bool operator!=(iterator<T2> it) const {
-			    return false;
+		    bool operator!=(iterator<T2> diff) const {
+			    return ((num_of_index - index) != (diff.num_of_index - diff.index - 1));
             }
         };
 
         public:
 
         auto begin() const{ 
-            return iterator<decltype(one.begin())> (one.begin(), one.end()); 
+            return iterator<decltype(myPowerSet.begin())> (myPowerSet.begin(), myPowerSet.end()); 
         } 
         auto end()  const{ 
-            return iterator<decltype(one.begin())>(one.end(), one.end());
+            return iterator<decltype(myPowerSet.begin())>(myPowerSet.end(), myPowerSet.end());
         } 
 
     };
 }
 
-template<typename T>
-std::ostream& operator<< (ostream& out, const set<T>& the_set) {
-    for (auto element: the_set) {
-        out << element << ',';
+template <typename D>
+std::ostream &operator<<(std::ostream &os, const std::set<D> &S)
+{
+    os << "{";
+
+    auto it = S.begin();
+    if(it != S.end())
+    { // first element is without comma seperator.
+        os << *it; 
+        ++it;
     }
-    return out;
+
+    while (it != S.end())
+    {
+        os << ',' << *it;
+        ++it;
+    }
+
+    os << "}";
+
+    return os;
 }
-
-
-
-// template <typename T,typename E>
-//     ostream& operator<< (ostream& os, const std::pair<T,E>& Pa){
-//     return (os << Pa.first << ',' << Pa.second) ;
-// }
-
