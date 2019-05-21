@@ -1,4 +1,7 @@
 #pragma once
+#include <set> // for set operations
+
+// #include <pair>
 using namespace std;
 namespace itertools
 {
@@ -25,9 +28,9 @@ namespace itertools
             iterator(T2 iter1, T2 itr2) : first(iter1), second(itr2) {
             }
 
-            pair<decltype(*first),decltype(*second)> operator*() const {
+            set<decltype(*first)> operator*() const {
 
-             return pair<decltype(*first),decltype(*second)> (*first , *second);
+             return set<decltype(*first)>{};
             
             }
 
@@ -57,5 +60,16 @@ namespace itertools
     };
 }
 
+template<typename T>
+ostream& operator<< (ostream& out, const set<T>& the_set) {
+    for (auto element: the_set) {
+        out << element << ",";
+    }
+    return out;
+}
 
+// template <typename T,typename E>
+//     ostream& operator<< (ostream& os, const std::pair<T,E>& Pa){
+//     return (os << Pa.first << ',' << Pa.second) ;
+// }
 
