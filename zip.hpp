@@ -30,7 +30,7 @@ namespace itertools{
                 return pair<decltype(*firstIterator),decltype(*secondIterator)>(*firstIterator,*secondIterator);
             }
 
-            bool operator!=(iterator<V1,V2> const &diff) const{
+            bool operator!=(iterator<V1,V2> const &diff) {
                 return (this->firstIterator != (diff.firstIterator)) && (this->secondIterator != (diff.secondIterator));
             }
 

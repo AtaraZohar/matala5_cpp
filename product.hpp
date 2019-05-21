@@ -32,7 +32,7 @@ namespace itertools{
             }
 
             bool operator!=(iterator<V1,V2> const &diff) {
-                if(firstIterator != (diff.firstIterator) && (this->secondIterator == (diff.secondIterator))){
+                if(firstIterator != (diff.firstIterator) && !(this->secondIterator != (diff.secondIterator))){
                     secondIterator = reset;
                     ++firstIterator;
                 }

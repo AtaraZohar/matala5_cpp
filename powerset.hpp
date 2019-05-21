@@ -47,14 +47,15 @@ namespace itertools
 
         public:
 
-        auto begin() { 
+        auto begin() const{ 
             return iterator<decltype(one.begin())> (one.begin(), one.end()); 
         } 
-        auto end()  { 
+        auto end()  const{ 
             return iterator<decltype(one.begin())>(one.end(), one.end());
         } 
 
     };
 }
+
 
 
