@@ -1,7 +1,7 @@
 #pragma once
-#include <set> // for set operations
-
-// #include <pair>
+#include <set> 
+#include <iostream>
+#include "zip.hpp"
 using namespace std;
 namespace itertools
 {
@@ -24,13 +24,19 @@ namespace itertools
             T2 first;
             T2 second;
 
+            // typedef decltype(*first) ElementType;
+            typedef
+               typename std::remove_const<
+               typename std::remove_reference<
+               decltype(*first)>::type>::type Element;
+
             public:
             iterator(T2 iter1, T2 itr2) : first(iter1), second(itr2) {
             }
 
-            set<decltype(*first)> operator*() const {
+            set<Element> operator*() const {
 
-             return set<decltype(*first)>{};
+             return set<Element>{};
             
             }
 
@@ -61,12 +67,14 @@ namespace itertools
 }
 
 template<typename T>
-ostream& operator<< (ostream& out, const set<T>& the_set) {
+std::ostream& operator<< (ostream& out, const set<T>& the_set) {
     for (auto element: the_set) {
-        out << element << ",";
+        out << element << ',';
     }
     return out;
 }
+
+
 
 // template <typename T,typename E>
 //     ostream& operator<< (ostream& os, const std::pair<T,E>& Pa){
