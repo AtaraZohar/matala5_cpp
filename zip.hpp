@@ -1,5 +1,7 @@
 #include "iostream"
+// #include <pair>
 using namespace std;
+#pragma once
 
 namespace itertools{
       template <typename T1, typename T2>
@@ -26,8 +28,8 @@ namespace itertools{
                 return  *this;
             }
 
-            pair<decltype(*firstIterator),decltype(*secondIterator)> operator*() const{
-                return pair<decltype(*firstIterator),decltype(*secondIterator)>(*firstIterator,*secondIterator);
+            std::pair<decltype(*firstIterator),decltype(*secondIterator)> operator*() const{
+                return std::pair<decltype(*firstIterator),decltype(*secondIterator)>(*firstIterator,*secondIterator);
             }
 
             bool operator!=(iterator<V1,V2> const &diff) {
@@ -49,9 +51,9 @@ namespace itertools{
              } 
           
       };
-        template <typename T,typename E>
-         ostream& operator<< (ostream& os, const pair<T,E>& Pa){
+    
+}
+    template <typename T,typename E>
+         ostream& operator<< (ostream& os, const std::pair<T,E>& Pa){
             return (os << Pa.first << ',' << Pa.second) ;
         }
-
-}
