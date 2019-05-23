@@ -2,6 +2,7 @@
 using namespace std;
 
 namespace itertools{
+    bool flag=false;
       template <typename T1, typename T2>
       class product{
            private:
@@ -13,16 +14,16 @@ namespace itertools{
         private:
             V1 firstIterator;
             V2 secondIterator;
-             V2 reset;
+            V2 reset;
+            bool itr_flag;
 
 
         public:
-            iterator(V1 first, V2 second): firstIterator(first), secondIterator(second),reset(second){
-                // this->firstIterator=first;
-                // this->secondIterator=second;
+            iterator(V1 first, V2 second): firstIterator(first), secondIterator(second),reset(second), itr_flag(false){
             }
 
             iterator<V1,V2>& operator++(){
+                if(!itr_flag)
                  ++this->secondIterator;
                 return  *this;
             }
@@ -33,18 +34,25 @@ namespace itertools{
 
             bool operator!=(iterator<V1,V2> const &diff) {
                 if(firstIterator != (diff.firstIterator) && !(this->secondIterator != (diff.secondIterator))){
+                    itr_flag=true;
+                }
+                if(itr_flag){
+                    itr_flag=false;
                     secondIterator = reset;
                     ++firstIterator;
                 }
-                return (this->firstIterator != (diff.firstIterator));
+                return (this->firstIterator != (diff.firstIterator) && !flag);
             }
 
-             bool operator==(iterator<V1,V2> const &diffrent) const{
-                 return this->secondIterator == (diffrent.secondIterator);
-             }
+            //  bool operator==(iterator<V1,V2> const &diffrent) const{
+            //      return this->secondIterator == (diffrent.secondIterator);
+            //  }
         };
         public:
-        product (T1 start, T2 end):one(start), two(end){
+        product (T1 first, T2 last):one(first), two(last){
+             if(!(last.begin()!= last.end())){
+                 flag=true;
+             }
         }
         
         auto begin() const { 
@@ -56,3 +64,5 @@ namespace itertools{
           
       };
 }
+
+
