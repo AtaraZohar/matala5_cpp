@@ -35,11 +35,15 @@ namespace itertools
             public:
             iterator(T2 iter1, T2 itr2) : first_iter(iter1), second_iter(itr2), index(0), num_of_index(0) {
                 T2 start=this->first_iter;
-                while(start != second_iter ){
+                int sum=1;
+                while(start != second_iter ){//counting how many subs i suppose to have
                     ++this->num_of_index;
                     ++start;
                 }
-                this->num_of_index = std::pow(2, this->num_of_index);
+                for(int i=0;i<this->num_of_index;i++){
+                    sum=sum*2;
+                }
+                this->num_of_index = sum;
             }
 
             set<Element> operator*() const {
@@ -83,14 +87,14 @@ namespace itertools
     };
 }
 
-template <typename D>
-std::ostream &operator<<(std::ostream &os, const std::set<D> &S)
+template <typename print>
+std::ostream &operator<<(std::ostream &os, const std::set<print> &S)
 {
     os << "{";
 
     auto it = S.begin();
     if(it != S.end())
-    { // first element is without comma seperator.
+    { // we need to print the first one wuth out a comma
         os << *it; 
         ++it;
     }

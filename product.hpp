@@ -15,15 +15,15 @@ namespace itertools{
             V1 firstIterator;
             V2 secondIterator;
             V2 reset;
-            bool itr_flag;
+            bool stop;
 
 
         public:
-            iterator(V1 first, V2 second): firstIterator(first), secondIterator(second),reset(second), itr_flag(false){
+            iterator(V1 first, V2 second): firstIterator(first), secondIterator(second),reset(second), stop(false){
             }
 
             iterator<V1,V2>& operator++(){
-                if(!itr_flag)
+                if(!stop)
                  ++this->secondIterator;
                 return  *this;
             }
@@ -34,19 +34,16 @@ namespace itertools{
 
             bool operator!=(iterator<V1,V2> const &diff) {
                 if(firstIterator != (diff.firstIterator) && !(this->secondIterator != (diff.secondIterator))){
-                    itr_flag=true;
+                    stop=true;
                 }
-                if(itr_flag){
-                    itr_flag=false;
+                if(stop){
+                    stop=false;
                     secondIterator = reset;
                     ++firstIterator;
                 }
                 return (this->firstIterator != (diff.firstIterator) && !flag);
             }
 
-            //  bool operator==(iterator<V1,V2> const &diffrent) const{
-            //      return this->secondIterator == (diffrent.secondIterator);
-            //  }
         };
         public:
         product (T1 first, T2 last):one(first), two(last){
@@ -64,5 +61,6 @@ namespace itertools{
           
       };
 }
+
 
 
